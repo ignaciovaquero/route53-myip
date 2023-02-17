@@ -1,0 +1,6 @@
+galaxy_info:
+  author: Ignacio Vaquero
+  description: Site Reliability Engineer
+  license: license (GPL-2.0-or-later, MIT, etc)
+  min_ansible_version: 7
+dependencies: []
