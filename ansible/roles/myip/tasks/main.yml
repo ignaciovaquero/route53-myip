@@ -1,0 +1,95 @@
+---
+# tasks file for myip
+
+## INSTALL ACTIONS
+
+- name: Create myip group
+  ansible.builtin.group:
+    name: myip
+    gid: 500
+  when: myip_action == "install"
+
+- name: Create myip user
+  ansible.builtin.user:
+    name: myip
+    create_home: true
+    home: /home/myip
+    comment: My IP user
+    uid: 1100
+    group: myip
+    shell: /usr/sbin/nologin
+  when: myip_action == "install"
+
+- name: Create directories
+  ansible.builtin.file:
+    state: directory
+    owner: myip
+    group: myip
+    path: "{{ item }}"
+    recurse: true
+  with_list:
+    - /opt/myip/bin
+    - /var/opt/myip
+    - /var/log/myip
+    - /home/myip/.aws
+  when: myip_action == "install"
+
+- name: Copy binary file
+  ansible.builtin.copy:
+    src: myip
+    dest: /opt/myip/bin/myip
+    owner: myip
+    group: myip
+    mode: 0700
+  when: myip_action == "install"
+
+- name: Copy aws credentials
+  ansible.builtin.copy:
+    src: credentials
+    dest: /home/myip/.aws/credentials
+    owner: myip
+    group: myip
+    mode: 0400
+  when: myip_action == "install"
+
+- name: Create cron file
+  ansible.builtin.cron:
+    name: myip run
+    cron_file: myip
+    hour: "*/2"
+    minute: "0"
+    user: myip
+    job: "ROUTE53_MYIP_FILE_PATH=/var/opt/myip/ip.txt ROUTE53_MYIP_LOG_PATH=/var/log/myip/myip.log /opt/myip/bin/myip"
+  when: myip_action == "install"
+
+
+## UNINSTALL ACTIONS
+
+- name: Delete cron job
+  ansible.builtin.file:
+    path: /etc/cron.d/myip
+    state: absent
+  when: myip_action == "uninstall"
+
+- name: Delete myip user
+  ansible.builtin.user:
+    name: myip
+    state: absent
+  when: myip_action == "uninstall"
+
+- name: Delete myip group
+  ansible.builtin.group:
+    name: myip
+    state: absent
+  when: myip_action == "uninstall"
+
+- name: Delete files and directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_list:
+    - /opt/myip
+    - /var/opt/myip
+    - /home/myip
+    - /var/log/myip
+  when: myip_action == "uninstall"

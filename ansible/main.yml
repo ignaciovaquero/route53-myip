@@ -1,0 +1,11 @@
+---
+
+- name: Installing myip
+  hosts: all
+  remote_user: pi
+  gather_facts: false
+  become: true
+  roles:
+    - role: myip
+      tags:
+        - myip
