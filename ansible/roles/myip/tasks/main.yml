@@ -30,7 +30,7 @@
   with_list:
     - /opt/myip/bin
     - /var/opt/myip
-    - /var/log/myip
+    - /var/log/myip/old
     - /home/myip/.aws
   when: myip_action == "install"
 
@@ -52,6 +52,15 @@
     mode: 0400
   when: myip_action == "install"
 
+- name: Create logrotate configuration
+  ansible.builtin.copy:
+    src: myip.logrotate
+    dest: /etc/logrotate.d/myip
+    owner: myip
+    group: myip
+    mode: 0444
+  when: myip_action == "install"
+
 - name: Create cron file
   ansible.builtin.cron:
     name: myip run
@@ -71,6 +80,18 @@
     state: absent
   when: myip_action == "uninstall"
 
+- name: Delete files and directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_list:
+    - /opt/myip
+    - /var/opt/myip
+    - /home/myip
+    - /var/log/myip
+    - /etc/logrotate.d/myip
+  when: myip_action == "uninstall"
+
 - name: Delete myip user
   ansible.builtin.user:
     name: myip
@@ -83,13 +104,3 @@
     state: absent
   when: myip_action == "uninstall"
 
-- name: Delete files and directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  with_list:
-    - /opt/myip
-    - /var/opt/myip
-    - /home/myip
-    - /var/log/myip
-  when: myip_action == "uninstall"

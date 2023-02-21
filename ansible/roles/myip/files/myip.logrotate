@@ -1,0 +1,10 @@
+/var/log/myip/myip.log {
+  notifempty
+  missingok
+  olddir /var/log/myip/old
+  daily
+  rotate 7
+  dateext
+  su myip myip
+  create 0644 myip myip
+}

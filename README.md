@@ -71,20 +71,22 @@ Ansible takes care of all the installation that happens in the Raspberry pi. Spe
 - Creates the proper folders:
   - /opt/myip/bin
   - /var/opt/myip
-  - /var/log/myip
+  - /var/log/myip/old
   - /home/myip/.aws
 - Copies the binary file to the proper location (`/opt/myip/bin/myip`)
 - Copies the aws credentials file to the proper location (`/home/myip/.aws/credentials`)
+- Creates the logrotate config to keep only 7 days of logs
 - Creates the cron file at `/etc/cron.d/myip`. **Currently the cron periodicity is hard coded and it will run every 2 hours**.
 
 Ansible also takes care of the uninstallation steps. The steps involved in the uninstallation are:
 - Deleting the cron file
-- Deleting the myip user and group
 - Deleting all the files and directories:
   - /opt/myip
   - /var/opt/myip
   - /home/myip
   - /var/log/myip
+  - /etc/logrotate.d/myip
+- Deleting the myip user and group
 
 There is a global `myip_action` variable that handles installation and uninstallation. This variable can only take two values: `install` and `uninstall`, and it defaults to `install`. However, all this should be transparent to you if you use the `Makefile` (see next section).
 

@@ -1,6 +1,6 @@
 ---
 
-- name: Installing myip
+- name: MyIP install/uninstall play
   hosts: all
   remote_user: pi
   gather_facts: false

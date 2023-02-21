@@ -1,4 +1,3 @@
 ansible/roles/myip/files/myip
 ansible/roles/myip/files/credentials
 terraform/.terraform
-terraform/.terraform.lock.hcl
