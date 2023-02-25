@@ -56,8 +56,8 @@
   ansible.builtin.copy:
     src: myip.logrotate
     dest: /etc/logrotate.d/myip
-    owner: myip
-    group: myip
+    owner: root
+    group: root
     mode: 0444
   when: myip_action == "install"
 
