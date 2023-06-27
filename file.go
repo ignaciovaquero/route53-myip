@@ -22,7 +22,7 @@ func readFile(filePath string) (string, error) {
 
 func saveInFile(content, filePath string) error {
 	sugar.Debugw("opening file for writing", "file_path", filePath)
-	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
 	if err != nil {
 		return fmt.Errorf("error opening file: %w", err)
 	}
