@@ -75,3 +75,12 @@ aws_secret_access_key=${aws_iam_access_key.myip.secret}
 EOF
   file_permission = 0444
 }
+
+resource "local_sensitive_file" "aws_credentials_configmap" {
+  filename = "${path.root}/../deploy/production/credentials"
+  content = <<EOF
+AWS_ACCESS_KEY_ID=${aws_iam_access_key.myip.id}
+AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.myip.secret}
+EOF
+  file_permission = 0444
+}
