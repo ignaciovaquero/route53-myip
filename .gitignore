@@ -1,4 +1,4 @@
 ansible/roles/myip/files/myip
 ansible/roles/myip/files/credentials
-deploy/production/credentials
+deploy/production/secret/credentials
 terraform/.terraform

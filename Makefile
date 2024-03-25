@@ -34,12 +34,14 @@ tf_destroy: tf_init
 
 install: build tf_init tf_apply
 	ansible-playbook -i ansible/hosts ansible/main.yml $(add_hosts)
+	k apply -k deploy/production/secret
 	k apply -k deploy/production
 	@rm -f ansible/roles/myip/files/myip
 	@rm -f ansible/roles/myip/files/credentials
-	@rm -f deploy/production/credentials
+	@rm -f deploy/production/secret/credentials
 
 uninstall:
 	ansible-playbook -i ansible/hosts -e "myip_action=uninstall" ansible/main.yml $(add_hosts)
 	k delete -k deploy/production
+	k delete -k deploy/production/secret
 	@terraform -chdir=terraform destroy -auto-approve

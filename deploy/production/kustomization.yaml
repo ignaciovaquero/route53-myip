@@ -1,7 +1,2 @@
-namespace: myip
-secretGenerator:
-- name: myip-aws-credentials
-  envs:
-  - credentials
 resources:
   - myip-cronjob.yaml

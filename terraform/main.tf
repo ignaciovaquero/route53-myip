@@ -77,7 +77,7 @@ EOF
 }
 
 resource "local_sensitive_file" "aws_credentials_configmap" {
-  filename = "${path.root}/../deploy/production/credentials"
+  filename = "${path.root}/../deploy/production/secret/credentials"
   content = <<EOF
 AWS_ACCESS_KEY_ID=${aws_iam_access_key.myip.id}
 AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.myip.secret}
