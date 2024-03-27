@@ -59,9 +59,9 @@ spec:
                   memory: 64Mi
               volumeMounts:
                 - mountPath: /data
-                  name: ${ROUTE53_MYIP_VOLUME:=myip-data}
+                  name: myip-data
           restartPolicy: OnFailure
           volumes:
-            - name: ${ROUTE53_MYIP_VOLUME:=myip-data}
+            - name: myip-data
               persistentVolumeClaim:
-                claimName: ${ROUTE53_MYIP_VOLUME:=myip-data}
+                claimName: myip-data
