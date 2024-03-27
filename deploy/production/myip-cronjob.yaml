@@ -45,6 +45,8 @@ spec:
               env:
                 - name: ROUTE53_MYIP_FILE_PATH
                   value: /data/ip.txt
+                - name: ROUTE53_MYIP_NAME
+                  value: ${ROUTE53_MYIP_NAME:=home.ignaciovaquero.es}
               envFrom:
                 - secretRef:
                     name: myip-aws-credentials
@@ -57,9 +59,9 @@ spec:
                   memory: 64Mi
               volumeMounts:
                 - mountPath: /data
-                  name: data
+                  name: ${ROUTE53_MYIP_VOLUME:=data}
           restartPolicy: OnFailure
           volumes:
-            - name: data
+            - name: ${ROUTE53_MYIP_VOLUME:=data}
               persistentVolumeClaim:
-                claimName: myip-data
+                claimName: myip-${ROUTE53_MYIP_VOLUME:=data}
