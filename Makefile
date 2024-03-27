@@ -1,4 +1,4 @@
-.PHONY: clean build tf_init tf_plan tf_apply tf_destroy install uninstall
+.PHONY: clean build tf_init tf_plan tf_apply tf_destroy create_k8s_secret delete_k8s_secret install uninstall
 
 HOSTS ?=
 ifdef HOSTS
@@ -32,10 +32,16 @@ tf_apply: tf_init
 tf_destroy: tf_init
 	@terraform -chdir=terraform destroy -auto-approve
 
-install: build tf_init tf_apply
+create_k8s_secret: tf_apply
+	kubectl apply -k deploy/production/secret
+
+delete_k8s_secret:
+	kubectl delete -k deploy/production/secret
+
+install: build tf_apply
 	ansible-playbook -i ansible/hosts ansible/main.yml $(add_hosts)
-	k apply -k deploy/production/secret
-	k apply -k deploy/production
+	kubectl apply -k deploy/production/secret
+	kubectl apply -k deploy/production
 	@rm -f ansible/roles/myip/files/myip
 	@rm -f ansible/roles/myip/files/credentials
 	@rm -f deploy/production/secret/credentials
