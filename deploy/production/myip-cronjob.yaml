@@ -20,7 +20,7 @@ spec:
                 - name: ROUTE53_MYIP_FILE_PATH
                   value: /data/ip.txt
                 - name: ROUTE53_MYIP_NAME
-                  value: ${ROUTE53_MYIP_NAME:=home.ignaciovaquero.es}
+                  value: home.ignaciovaquero.es
               envFrom:
                 - secretRef:
                     name: myip-aws-credentials
