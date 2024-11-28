@@ -1,4 +1,0 @@
-resources:
-  - myip-ns.yaml
-  - myip-pvc.yaml
-  - myip-cronjob.yaml
