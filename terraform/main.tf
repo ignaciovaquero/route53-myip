@@ -46,7 +46,7 @@ resource "aws_iam_user_policy" "route53_myip" {
         Sid      = "VisualEditor0"
         Effect   = "Allow"
         Action   = "route53:ChangeResourceRecordSets"
-        Resource = "arn:aws:route53:::hostedzone/Z076159532BK132ZKZOI9"
+        Resource = "arn:aws:route53:::hostedzone/Z080379015RPFB3TOG9CS"
         Condition = {
           StringEquals = {
             "route53:ChangeResourceRecordSetsRecordTypes"           = var.record_conditions.type
@@ -72,15 +72,6 @@ resource "local_sensitive_file" "aws_credentials" {
 [default]
 aws_access_key_id=${aws_iam_access_key.myip.id}
 aws_secret_access_key=${aws_iam_access_key.myip.secret}
-EOF
-  file_permission = 0444
-}
-
-resource "local_sensitive_file" "aws_credentials_configmap" {
-  filename = "${path.root}/../deploy/production/secret/credentials"
-  content = <<EOF
-AWS_ACCESS_KEY_ID=${aws_iam_access_key.myip.id}
-AWS_SECRET_ACCESS_KEY=${aws_iam_access_key.myip.secret}
 EOF
   file_permission = 0444
 }
